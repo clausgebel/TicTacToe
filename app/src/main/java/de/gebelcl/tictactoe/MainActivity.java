@@ -3,17 +3,16 @@ package de.gebelcl.tictactoe;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    Button playAgainButton;
-    TextView winnerTextView;
-    GridLayout gridLayout;
-    boolean gewonnen = false;
+    private Button playAgainButton;
+    private TextView winnerTextView;
+    private GridLayout gridLayout;
+    private boolean won = false;
 
     // 0 = player 1 clicked that field
     // 1 = player 2 clicked that field
@@ -57,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
                     clickBehaviorOfImageViews(false);
                     String winner = "";
                     if (activePlayer == 1) {
-                        gewonnen = true;
+                        won = true;
                         winner = "Ring";
                         activePlayer = 0; // change active player so that the winner will begin in the next game
                     } else {
-                        gewonnen = true;
+                        won = true;
                         winner = "Kreuz";
                         activePlayer = 1; // change active player so that the winner will begin in the next game
                     }
@@ -70,14 +69,8 @@ public class MainActivity extends AppCompatActivity {
                     playAgainButton.setVisibility(View.VISIBLE);
                     winnerTextView.setVisibility(View.VISIBLE);
 
-                    stressWinnersImageView(gameState[winPosition[0]], gameState[winPosition[1]], gameState[winPosition[2]]);
-                    Log.i("1", String.valueOf(gameState[winPosition[0]]));
-                    Log.i("2", String.valueOf(gameState[winPosition[1]]));
-                    Log.i("3", String.valueOf(gameState[winPosition[2]]));
-
                 } else {
                     gameIsActive = false;
-
                     for (int imageViewState: gameState) {
                         if (imageViewState == 2) {
                             gameIsActive = true;
@@ -99,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     public void playAgain(View view) {
         playAgainButton.setVisibility(View.INVISIBLE);
         winnerTextView.setVisibility(View.INVISIBLE);
-        gewonnen = false;
+        won = false;
         // Anklickbarkeit der ImageViews deaktivieren
         clickBehaviorOfImageViews(true);
         for (int i = 0; i < gridLayout.getChildCount(); i++) {
@@ -120,16 +113,6 @@ public class MainActivity extends AppCompatActivity {
             iv.setClickable(clickable);
         }
     }
-
-    protected void stressWinnersImageView(int image1, int image2, int image3) {
-        for (int i = 0; i < 9; i++) {
-            ImageView iv = (ImageView) gridLayout.getChildAt(i);
-            if (i==image1 || i == image2 || i == image3) {
-                iv.setAlpha(1.0f);
-            }
-        }
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
